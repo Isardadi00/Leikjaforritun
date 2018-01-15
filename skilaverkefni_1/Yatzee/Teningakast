@@ -1,0 +1,56 @@
+import pygame
+from random import *
+import time
+
+pygame.init()
+
+pygame.display.set_caption("Teningakastarinn")
+
+DISPLAY_WIDTH = 960
+DISPLAY_HEIGHT = 540
+BLACK = (0, 0, 0)
+
+nodice= pygame.image.load('nodice.png')
+dice1 = pygame.image.load('dice1.png')
+dice2 = pygame.image.load('dice2.png')
+dice3 = pygame.image.load('dice3.png')
+dice4 = pygame.image.load('dice4.png')
+dice5 = pygame.image.load('dice5.png')
+
+dice_width, dice_height = dice1.get_rect().size
+
+dices = [dice1, dice2, dice3, dice4, dice5]
+x = (DISPLAY_WIDTH / 2) - (dice_width / 2)
+y = (DISPLAY_HEIGHT / 2) - (dice_height / 2)
+counter=1
+screen = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                pygame.display.update()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            x, y = event.pos
+            if event.pos == ten1
+                dice1 = nodice
+                pygame.display.update()
+
+
+    event = pygame.event.poll()
+    screen.fill(BLACK)
+    a = randint(0, 4)
+    b = randint(0, 4)
+    c = randint(0, 4)
+    d = randint(0, 4)
+    e = randint(0, 4)
+    ten1 = screen.blit(dices[a], (x - 200, y))
+    ten2 = screen.blit(dices[b], (x - 100, y - 100))
+    ten3 = screen.blit(dices[c], (x, y))
+    ten4 = screen.blit(dices[d], (x + 100, y - 100))
+    ten5 = screen.blit(dices[e], (x + 200, y))
+
+pygame.quit()
