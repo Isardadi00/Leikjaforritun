@@ -1,0 +1,137 @@
+import sys, pygame, time, random
+
+pygame.init()
+
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+GREEN = (0, 150, 0)
+
+WIDTH = 960
+HEIGHT = 640
+window_size = WIDTH, HEIGHT
+window = pygame.display.set_mode(window_size)
+window.fill(BLACK)
+
+pygame.display.set_caption('Pong - Ísar Daði Pálsson')
+
+# --------------- Ball Section -------------
+# positioning for ball
+x_position_ball = round(WIDTH / 2)
+y_position_ball = round(HEIGHT / 2)
+x_startposition_ball = round(WIDTH / 2)
+y_startposition_ball = round(HEIGHT / 2)
+radius = 10
+
+# current velocity for ball
+x_velocity_ball = 5
+y_velocity_ball = 2
+
+# --------------- Player Section -------------
+# size of players
+player_h = 80
+player_w = 20
+# positioning and velocity for player 1
+x_position_1 = WIDTH - 40
+y_position_1 = HEIGHT / 2
+y_velocity_1 = 0
+
+# positioning and velocity for player 2
+x_position_2 = 20
+y_position_2 = HEIGHT / 2
+y_velocity_2 = 0
+
+# points for players
+pl_score = 0
+p2_score = 0
+
+clock = pygame.time.Clock()
+
+running = True
+
+while running:
+    #score information HUD
+    p1score = pygame.font.SysFont("Calibri", 20)
+    label1 = p1score.render("Score: " + str(pl_score), 1, (WHITE))
+    window.blit(label1, (WIDTH * 0.03, 20))
+
+    p2score = pygame.font.SysFont("Calibri", 20)
+    label2 = p2score.render("Score: " + str(p2_score), 1, (WHITE))
+    window.blit(label2, (WIDTH * 0.9, 20))
+
+    ball_vel = pygame.font.SysFont("Calibri", 20)
+    label2 = ball_vel.render("Speed: " + str(x_velocity_ball), 1, (WHITE))
+    window.blit(label2, (WIDTH * 0.4, 20))
+
+    p1 = pygame.draw.rect(window,RED,pygame.Rect(x_position_1,y_position_1,player_w,player_h))
+    p2 = pygame.draw.rect(window,RED,pygame.Rect(x_position_2, y_position_2, player_w,player_h))
+    ball = pygame.draw.circle(window, RED, (x_position_ball, y_position_ball), radius)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            running = False
+        # movement for players
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                y_velocity_1 = -7
+            elif event.key == pygame.K_DOWN:
+                y_velocity_1 = 7
+            elif event.key == pygame.K_w:
+                y_velocity_2 = -7
+            elif event.key == pygame.K_s:
+                y_velocity_2 = 7
+    #keycheck for players
+        elif event.type == pygame.KEYUP:
+            y_velocity_1 = y_velocity_2 = 0
+
+    # velocity check for players
+    y_position_1 += y_velocity_1
+    y_position_2 += y_velocity_2
+    # Velocity check for ball
+    x_position_ball += x_velocity_ball
+    y_position_ball += y_velocity_ball
+
+    # bouncing on edge of screen for ball
+    if y_position_ball > HEIGHT or y_position_ball < 0:  # top  bottom check
+        y_velocity_ball *= -1
+    elif x_position_ball < 0:
+        # time.sleep(1)
+        x_position_ball = x_startposition_ball
+        y_position_ball = y_startposition_ball
+        x_velocity_ball = 8
+        p2_score += 1
+    elif x_position_ball > WIDTH:
+        # time.sleep(1)
+        x_position_ball = x_startposition_ball
+        y_position_ball = y_startposition_ball
+        x_velocity_ball = -8
+        pl_score += 1
+
+    # checking collision between ball and player and putting in center tweak
+    elif ball.colliderect(p1):
+        x_velocity_ball = -8
+    elif ball.colliderect(p2):
+        x_velocity_ball = 8
+    elif x_position_ball == (WIDTH/2) and x_velocity_ball == -8:
+        digit = random.randrange(1,4)
+        if digit == 2:
+            x_velocity_ball = 8
+    elif x_position_ball == (WIDTH/2) and x_velocity_ball == 8:
+        digit = random.randrange(1,4)
+        if digit == 2:
+            x_velocity_ball = -8
+
+
+
+    # boundary check for both players
+    if y_position_1 > HEIGHT - player_h or y_position_1 < 0:
+        y_velocity_1 = 0
+    if y_position_2 > HEIGHT - player_h or y_position_2 < 0:
+        y_velocity_2 = 0
+
+    pygame.display.update()
+    clock.tick(60)
+    window.fill(BLACK)
+
+pygame.quit()
