@@ -109,7 +109,7 @@ while running:
         pl_score += 1
 
     # checking collision between ball and player and putting in center tweak
-    elif ball.colliderect(p1):
+        elif ball.colliderect(p1):
         x_velocity_ball = -8
     elif ball.colliderect(p2):
         x_velocity_ball = 8
@@ -117,10 +117,12 @@ while running:
         digit = random.randrange(1,4)
         if digit == 2:
             x_velocity_ball = 8
+            y_velocity_ball = random.randrange(-5, 5)
     elif x_position_ball == (WIDTH/2) and x_velocity_ball == 8:
         digit = random.randrange(1,4)
         if digit == 2:
             x_velocity_ball = -8
+            y_velocity_ball = random.randint(-5, 5)
 
 
 
